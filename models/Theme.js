@@ -1,16 +1,16 @@
 const mongoose = require('mongoose');
 
 const themeSchema = new mongoose.Schema({
-    nom: {
+    name: {
         type: String,
         required: true,
     },
     description: {
         type: String,
     },
-    cursus: [{
+    course: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Cursus'
+        ref: 'Course'
     }]
 }, { timestamps: true });
 
