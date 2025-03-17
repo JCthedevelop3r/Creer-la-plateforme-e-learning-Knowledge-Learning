@@ -20,6 +20,26 @@ const lessonSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Course',
         required: true
+    },
+    price: {
+        type: Number,
+        required: true
+    },
+    purchased: {
+        type: Boolean,
+        default: false
+    },
+    certified: {
+        type: Boolean,
+        default: false
+    },
+    created_by: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    },
+    updated_by: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
     }
 }, { timestamps: true });
 
