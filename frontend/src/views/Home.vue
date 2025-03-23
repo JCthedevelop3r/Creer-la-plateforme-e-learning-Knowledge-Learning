@@ -23,12 +23,12 @@
 
       <div class="home-page__buttons">
         <button class="home-page__button">
-          <a href="/themes" class="home-page__button-link"
-            >EXPLORER LES THÈMES</a
+          <router-link to="/themes" class="home-page__button-link"
+            >EXPLORER LES THÈMES</router-link
           >
         </button>
         <button class="home-page__button">
-          <a href="/sign-up" class="home-page__button-link">S'INSCRIRE</a>
+          <router-link to="/sign-up" class="home-page__button-link">S'INSCRIRE</router-link>
         </button>
       </div>
     </div>
