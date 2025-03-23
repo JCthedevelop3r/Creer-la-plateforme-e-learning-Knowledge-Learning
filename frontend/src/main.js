@@ -1,8 +1,12 @@
 import { createApp } from "vue";
-import "./style.css";
 import App from "./App.vue";
+import router from "./router"; // Import du router
 
-createApp(App).mount("#app");
+const app = createApp(App);
+
+app.use(router); // Activation de Vue Router
+
+app.mount("#app");
 
 // Allows to connect Vue to Express
 fetch("http://localhost:3000/api/test")
