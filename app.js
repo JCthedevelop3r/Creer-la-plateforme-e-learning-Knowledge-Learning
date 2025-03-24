@@ -7,6 +7,7 @@ const logger = require("morgan");
 const connectDB = require("./db/db");
 
 const indexRouter = require("./routes/index");
+const themesRouter = require("./routes/themes");
 
 connectDB();
 
@@ -48,5 +49,7 @@ if (process.env.NODE_ENV === "production") {
     res.sendFile(path.resolve(__dirname, "frontend", "dist", "index.html"));
   });
 }
+
+app.use("/api", themesRouter);
 
 module.exports = app;
