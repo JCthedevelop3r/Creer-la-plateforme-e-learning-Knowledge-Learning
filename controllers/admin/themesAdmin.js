@@ -1,10 +1,18 @@
-// const themeService = require('../services/themeService');
+const themesService = require("../services/themesService");
 
 async function createTheme(req, res) {
   try {
     const { name, image, description } = req.body;
+    const createdBy = req.userId;
+    const updatedBy = req.userId;
 
-    // const newTheme = await themeService.createTheme({ name, image, description });
+    const newTheme = await themesService.createTheme({
+      name,
+      image,
+      description,
+      createdBy,
+      updatedBy,
+    });
 
     res.status(201).json(newTheme);
   } catch (error) {
@@ -16,7 +24,7 @@ async function createTheme(req, res) {
 
 async function getAllThemes(req, res) {
   try {
-    // const themes = await themeService.getAllThemes();
+    const themes = await themesService.getAllThemes();
     res.status(200).json(themes);
   } catch (error) {
     console.error("Erreur lors de la récupération des thèmes :", error.message);
@@ -26,9 +34,14 @@ async function getAllThemes(req, res) {
 
 async function updateTheme(req, res) {
   try {
+    const { themeId } = req.params;
     const { name, image, description } = req.body;
 
-    // const updatedTheme = await themeService.updateTheme({ name, image, description });
+    const updatedTheme = await themesService.updateTheme(themeId, {
+      name,
+      image,
+      description,
+    });
 
     res.status(200).json(updatedTheme);
   } catch (error) {
@@ -40,9 +53,9 @@ async function updateTheme(req, res) {
 
 async function deleteTheme(req, res) {
   try {
-    const { name } = req.body;
+    const { themeId } = req.params;
 
-    // const deletedTheme = await themeService.deleteTheme({ name });
+    const deletedTheme = await themesService.deleteTheme({ themeId });
 
     res.status(200).json({ message: "Thème supprimé avec succès !" });
   } catch (error) {
@@ -54,5 +67,7 @@ async function deleteTheme(req, res) {
 
 module.exports = {
   createTheme,
+  getAllThemes,
   updateTheme,
+  deleteTheme,
 };

@@ -1,6 +1,6 @@
 // const lessonsService = require('../services/lessonsService');
 
-async function createLessons(req, res) {
+async function createLesson(req, res) {
   try {
     const { title, image, description, textContent, price } = req.body;
 
@@ -26,7 +26,7 @@ async function getAllLessons(req, res) {
   }
 }
 
-async function updateLessons(req, res) {
+async function updateLesson(req, res) {
   try {
     const { title, image, description, textContent, price } = req.body;
 
@@ -43,7 +43,7 @@ async function updateLessons(req, res) {
   }
 }
 
-async function deleteLessons(req, res) {
+async function deleteLesson(req, res) {
   try {
     const { title } = req.body;
 
@@ -56,3 +56,10 @@ async function deleteLessons(req, res) {
     res.status(500).json({ message: "Erreur serveur", error: error.message });
   }
 }
+
+module.exports = {
+  createLesson,
+  getAllLessons,
+  updateLesson,
+  deleteLesson,
+};

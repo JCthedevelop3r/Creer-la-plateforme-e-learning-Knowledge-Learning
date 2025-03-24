@@ -56,3 +56,10 @@ async function deleteCourse(req, res) {
     res.status(500).json({ message: "Erreur serveur", error: error.message });
   }
 }
+
+module.exports = {
+  createCourse,
+  getAllCourses,
+  updateCourse,
+  deleteCourse,
+};

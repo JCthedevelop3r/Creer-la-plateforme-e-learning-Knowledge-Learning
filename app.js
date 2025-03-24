@@ -7,7 +7,7 @@ const logger = require("morgan");
 const connectDB = require("./db/db");
 
 const indexRouter = require("./routes/index");
-const themesRouter = require("./routes/themes");
+const themesAdminRoutes = require("./routes/admin/themesRoutes");
 
 connectDB();
 
@@ -50,6 +50,6 @@ if (process.env.NODE_ENV === "production") {
   });
 }
 
-app.use("/api", themesRouter);
+app.use("/admin/themes", themesAdminRoutes);
 
 module.exports = app;

@@ -63,3 +63,10 @@ async function deleteUser(req, res) {
     res.status(500).json({ message: "Erreur serveur", error: error.message });
   }
 }
+
+module.exports = {
+  createUser,
+  getAllUsers,
+  updateUser,
+  deleteUser,
+};
