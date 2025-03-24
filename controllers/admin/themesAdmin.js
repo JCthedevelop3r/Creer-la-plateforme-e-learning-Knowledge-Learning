@@ -57,7 +57,12 @@ async function deleteTheme(req, res) {
 
     const deletedTheme = await themesService.deleteTheme({ themeId });
 
-    res.status(200).json({ message: "Thème supprimé avec succès !" });
+    res
+      .status(200)
+      .json({
+        message: "Thème supprimé avec succès !",
+        themeId: deletedTheme._id,
+      });
   } catch (error) {
     console.error("Erreur lors de la suppression d'un thème :", error.message);
 

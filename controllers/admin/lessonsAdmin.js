@@ -64,7 +64,10 @@ async function deleteLesson(req, res) {
 
     const deletedLesson = await lessonsService.deleteLesson({ lessonId });
 
-    res.status(201).json({ message: "Leçon supprimée avec succès !" });
+    res.status(201).json({
+      message: "Leçon supprimée avec succès !",
+      lessonId: deletedLesson._id,
+    });
   } catch (error) {
     console.error("Erreur lors de la suppression d'une leçon :", error.message);
 

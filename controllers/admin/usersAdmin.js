@@ -1,10 +1,10 @@
-// const usersService = require('../services/usersService');
+const usersService = require("../services/usersService");
 
 async function createUser(req, res) {
   try {
     const { name, mail, password } = req.body;
 
-    // const newUser = await usersService.createUser({ name, mail, password });
+    const newUser = await usersService.createUser({ name, mail, password });
 
     res.status(201).json(newUser);
   } catch (error) {
@@ -19,7 +19,7 @@ async function createUser(req, res) {
 
 async function getAllUsers(req, res) {
   try {
-    // const users = await usersService.getAllUsers();
+    const users = await usersService.getAllUsers();
     res.status(200).json(users);
   } catch (error) {
     console.error(
@@ -32,9 +32,15 @@ async function getAllUsers(req, res) {
 
 async function updateUser(req, res) {
   try {
+    const { userId } = req.params;
     const { name, mail, password } = req.body;
 
-    // const updatedUser = await usersService.updateUser({ name, mail, password });
+    const updatedUser = await usersService.updateUser(
+      userId,
+      name,
+      mail,
+      password
+    );
 
     res.status(200).json(updatedUser);
   } catch (error) {
@@ -49,11 +55,16 @@ async function updateUser(req, res) {
 
 async function deleteUser(req, res) {
   try {
-    const { userId } = req.body;
+    const { userId } = req.params;
 
-    // const deletedUser = await usersService.deleteUser({ userId });
+    const deletedUser = await usersService.deleteUser(userId);
 
-    res.status(200).json(deletedUser);
+    res
+      .status(200)
+      .json({
+        message: "Utilisateur supprimé avec succès !",
+        userId: deletedUser._id,
+      });
   } catch (error) {
     console.error(
       "Erreur lors de la suppression d'un utilisateur :",
