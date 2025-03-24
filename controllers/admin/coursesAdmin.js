@@ -8,7 +8,7 @@ async function createCourse(req, res) {
 
     res.status(201).json(newCourse);
   } catch (error) {
-    console.error("Erreur lors de la création d'un thème :", error.message);
+    console.error("Erreur lors de la création d'un cursus :", error.message);
 
     res.status(500).json({ message: "Erreur serveur", error: error.message });
   }
@@ -34,7 +34,10 @@ async function updateCourse(req, res) {
 
     res.status(200).json(updatedCourse);
   } catch (error) {
-    console.error("Erreur lors de la création d'un thème :", error.message);
+    console.error(
+      "Erreur lors de la modification d'un cursus :",
+      error.message
+    );
 
     res.status(500).json({ message: "Erreur serveur", error: error.message });
   }
@@ -48,7 +51,7 @@ async function deleteCourse(req, res) {
 
     res.status(200).json(deletedCourse);
   } catch (error) {
-    console.error("Erreur lors de la création d'un thème :", error.message);
+    console.error("Erreur lors de la suppression d'un cursus :", error.message);
 
     res.status(500).json({ message: "Erreur serveur", error: error.message });
   }

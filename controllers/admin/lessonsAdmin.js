@@ -8,7 +8,7 @@ async function createLessons(req, res) {
 
     res.status(201).json(newLesson);
   } catch (error) {
-    console.error("Erreur lors de la création d'un thème :", error.message);
+    console.error("Erreur lors de la création d'une leçon :", error.message);
 
     res.status(500).json({ message: "Erreur serveur", error: error.message });
   }
