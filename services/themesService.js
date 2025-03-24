@@ -38,7 +38,7 @@ async function getAllThemes() {
 async function updateTheme(themeId, updateData) {
   try {
     const updatedTheme = await Theme.findByIdAndUpdate(themeId, updateData, {
-      new: true,
+      new: true, // returns the updated document
     });
 
     if (!updatedTheme) {

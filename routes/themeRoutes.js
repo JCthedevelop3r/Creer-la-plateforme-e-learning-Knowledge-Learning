@@ -1,10 +1,9 @@
 const express = require("express");
 const router = express.Router();
-const Theme = require("../models/Theme");
-const themesAdminController = require("../services/themesService");
+const themesAdminController = require("../controllers/admin/themesAdmin");
 
-// Route to create a theme
 router.post("/create-theme", themesAdminController.createTheme);
-router.post("/update-theme", themesAdminController.updateTheme);
+router.put("/update-theme", themesAdminController.updateTheme);
+router.delete("/delete-theme", themesAdminController.deleteTheme);
 
 module.exports = router;
