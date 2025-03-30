@@ -6,26 +6,30 @@
       choisissez votre domaine d'apprentissage.
     </p>
     <div class="themes__cards">
-      <div 
-        class="themes__card" 
-        v-for="(theme, index) in themes" 
+      <router-link
+        v-for="(theme, index) in themes"
         :key="index"
+        :to="{ path: `/theme/${theme.name}` }"
+        class="themes__card-link"
       >
-        <div class="themes__card-header">
-          <h2 class="theme__title--h2">{{ theme.name }}</h2>
-        </div>
-        <div class="themes__picture-container">
-          <img :src="theme.image" alt="Image du thème" class="themes__picture" />
-        </div>
-        <div class="themes__card-description-container">
-          <div class="themes__card-description">
-            {{ theme.description }}
+        <div class="themes__card">
+          <div class="themes__card-header">
+            <h2 class="theme__title--h2">{{ theme.name }}</h2>
+          </div>
+          <div class="themes__picture-container">
+            <img :src="theme.image" alt="Image du thème" class="themes__picture" />
+          </div>
+          <div class="themes__card-description-container">
+            <div class="themes__card-description">
+              {{ theme.description }}
+            </div>
           </div>
         </div>
-      </div>
+      </router-link>
     </div>
   </div>
 </template>
+
 
 <script setup>
 import { ref, onMounted } from 'vue';
@@ -35,7 +39,7 @@ const themes = ref([]);
 
 const fetchThemes = async () => {
   try {
-    const response = await axios.get('http://localhost:3000/api/themes');
+    const response = await axios.get('http://localhost:3000/admin/themes/get-all-themes');
     themes.value = response.data;
   } catch (error) {
     console.error('Erreur lors du chargement des thèmes', error);

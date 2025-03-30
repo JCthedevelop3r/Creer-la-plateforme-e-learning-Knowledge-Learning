@@ -1,4 +1,4 @@
-const coursesService = require("../services/coursesService");
+const coursesService = require("../../services/coursesService");
 
 async function createCourse(req, res) {
   try {
@@ -56,12 +56,10 @@ async function deleteCourse(req, res) {
 
     const deletedCourse = await coursesService.deleteCourse({ courseId });
 
-    res
-      .status(200)
-      .json({
-        message: "Cursus supprimé avec succès !",
-        courseId: deletedCourse._id,
-      });
+    res.status(200).json({
+      message: "Cursus supprimé avec succès !",
+      courseId: deletedCourse._id,
+    });
   } catch (error) {
     console.error("Erreur lors de la suppression d'un cursus :", error.message);
 

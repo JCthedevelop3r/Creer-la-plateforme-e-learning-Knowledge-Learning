@@ -15,7 +15,7 @@ const routes = [
   { path: "/confirmation", component: Confirmation },
   { path: "/sign-in", component: SignIn },
   { path: "/themes", component: Themes },
-  { path: "/theme/:theme-name", component: Theme },
+  { path: "/theme/:themeName", component: Theme },
   { path: "/theme/:theme-name/:course-name", component: Course },
   { path: "/theme/:theme-name/:course-name/:lesson-name", component: Lesson },
   { path: "/certifications", component: Certifications },
