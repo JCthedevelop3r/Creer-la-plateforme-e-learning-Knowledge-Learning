@@ -3,26 +3,33 @@
     <h1 class="theme__title">{{ theme?.name || "Chargement..." }}</h1>
     <h2 class="theme__subtitle">Choisissez votre cursus :</h2>
     <div class="theme__cards">
-      <div class="theme__card" v-for="(course, index) in courses" :key="index">
-        <div class="theme__card-header">
-          <h2 class="theme__card-title">{{ course.name }}</h2>
-          <div class="theme__certifier-container">
-            <button class="theme__certifier"></button>
+      <router-link 
+        v-for="(course, index) in courses"
+        :key="index"
+        :to="{path: `${theme.name}/${encodeURIComponent(course.name)}`}"
+        class="theme__cards-link"
+      >
+        <div class="theme__card">
+          <div class="theme__card-header">
+            <h2 class="theme__card-title">{{ course.name }}</h2>
+            <div class="theme__certifier-container">
+              <button class="theme__certifier"></button>
+            </div>
+          </div>
+          <div class="theme__picture-container">
+            <img :src="course.image" alt="Image du cursus" class="theme__picture" />
+          </div>
+          <div class="theme__description-container">
+            <div class="theme__list-container">
+              <ul class="theme__list">
+                <li v-for="(lesson, lessonIndex) in course.lessons" :key="lessonIndex" class="theme__list-item">
+                  {{ lesson?.title || "Chargement..." }} - {{ course.price }}€
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
-        <div class="theme__picture-container">
-          <img :src="course.image" alt="Image du cursus" class="theme__picture" />
-        </div>
-        <div class="theme__description-container">
-          <div class="theme__list-container">
-            <ul class="theme__list">
-              <li v-for="(lesson, lessonIndex) in course.lessons" :key="lessonIndex" class="theme__list-item">
-                {{ lesson?.title || "Chargement..." }} - {{ course.price }}€
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
+      </router-link>
     </div>
   </div>
 </template>

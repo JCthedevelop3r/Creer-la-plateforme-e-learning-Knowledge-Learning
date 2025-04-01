@@ -1,4 +1,5 @@
 const coursesService = require("../../services/coursesService");
+const Course = require("../../models/Course");
 
 async function createCourse(req, res) {
   try {
@@ -67,9 +68,28 @@ async function deleteCourse(req, res) {
   }
 }
 
+async function getCourseByName(req, res) {
+  const courseName = req.params["courseName"];
+  try {
+    const course = await Course.findOne({ name: courseName }).populate(
+      "lesson"
+    );
+
+    if (!course) {
+      return res.status(404).json({ message: "Cursus non trouvé" });
+    }
+
+    res.json(course);
+  } catch (error) {
+    console.error("Erreur serveur :", error);
+    res.status(500).json({ message: "Erreur serveur" });
+  }
+}
+
 module.exports = {
   createCourse,
   getAllCourses,
   updateCourse,
   deleteCourse,
+  getCourseByName,
 };
