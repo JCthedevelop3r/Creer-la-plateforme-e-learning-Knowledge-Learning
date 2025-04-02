@@ -58,25 +58,26 @@ const fetchThemeDetails = async () => {
 
 const fetchLessonsForCourses = async () => {
   try {
-    // Parcours chaque cours
+    // Loop through each course
     for (const course of courses.value) {
-      // On récupère les leçons directement pour chaque cours
+      // Retrieve lessons directly for each course
       const lessonsPromises = course.lesson.map(lessonId => 
         axios.get(`http://localhost:3000/admin/lessons/${lessonId}`)
       );
-      
-      // On attend la réponse de toutes les promesses pour récupérer les leçons
+
+      // Wait for all promises to resolve and get the lessons
       const lessonsResponses = await Promise.all(lessonsPromises);
-      
-      // Ajout des leçons au cours
+
+      // Add the lessons to the course
       course.lessons = lessonsResponses.map(response => response.data);
 
-      console.log(`Cursus mis à jour avec les leçons :`, course); // Log pour vérifier les données
+      console.log(`Course updated with lessons:`, course); // Log to verify data
     }
   } catch (error) {
-    console.error("Erreur lors de la récupération des leçons :", error);
+    console.error("Error while fetching lessons:", error);
   }
 };
+
 
 onMounted(fetchThemeDetails);
 

@@ -6,7 +6,7 @@
       <router-link
         v-for="(lesson, index) in lessons"
         :key="index"
-        :to="{path: `${encodeURIComponent(course.name)}/${encodeURIComponent(lesson.title)}`}"
+        :to="{path: `${encodeURIComponent(course.name)}/${lesson._id}`}"
         class="theme__cards-link"
       >
         <div class="course__card">
@@ -39,10 +39,7 @@ const lessons = ref([]);
 
 const fetchCourseDetails = async () => {
   try {
-    console.log("courseName extrait de la route :", courseName.value);
-
     const response = await axios.get(`http://localhost:3000/admin/courses/${encodeURIComponent(courseName.value)}`);
-    console.log("Données reçues des cursus :", response.data);
     
     course.value = response.data;
     lessons.value = [...response.data.lesson];
