@@ -1,38 +1,46 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
-const themeSchema = new mongoose.Schema({
+const themeSchema = new mongoose.Schema(
+  {
     name: {
-        type: String,
-        required: true,
+      type: String,
+      required: true,
+    },
+    image: {
+      type: String,
     },
     description: {
-        type: String,
+      type: String,
     },
-    course: [{
+    course: [
+      {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Course'
-    }],
+        ref: "Course",
+      },
+    ],
     created_by: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
     },
     updated_by: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
     },
     certified: {
-        type: Boolean,
-        default: false
-    }
-}, { timestamps: true });
+      type: Boolean,
+      default: false,
+    },
+  },
+  { timestamps: true }
+);
 
-themeSchema.pre('save', function (next) {
-    if (this.isModified('course')) {
-        this.certified = this.course.every(c => c.certified); // The theme is certified if all the courses are certified
-    }
-    next();
+themeSchema.pre("save", function (next) {
+  if (this.isModified("course")) {
+    this.certified = this.course.every((c) => c.certified); // The theme is certified if all the courses are certified
+  }
+  next();
 });
 
-const Theme = mongoose.model('Theme', themeSchema);
+const Theme = mongoose.model("Theme", themeSchema);
 
 module.exports = Theme;
