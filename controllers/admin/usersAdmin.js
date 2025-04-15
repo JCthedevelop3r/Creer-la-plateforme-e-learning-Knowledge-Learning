@@ -30,17 +30,32 @@ async function getAllUsers(req, res) {
   }
 }
 
+async function getUserById(req, res) {
+  try {
+    const { id } = req.params;
+
+    const user = await usersService.getUserById(id);
+
+    if (!user) {
+      return res.status(404).json({ message: "Utilisateur introuvable" });
+    }
+
+    res.status(200).json(user);
+  } catch (error) {
+    console.error(
+      "Erreur lors de la récupération d'un utilisateur :",
+      error.message
+    );
+    res.status(500).json({ message: "Erreur serveur", error: error.message });
+  }
+}
+
 async function updateUser(req, res) {
   try {
-    const { userId } = req.params;
+    const { id } = req.params;
     const { name, mail, password } = req.body;
 
-    const updatedUser = await usersService.updateUser(
-      userId,
-      name,
-      mail,
-      password
-    );
+    const updatedUser = await usersService.updateUser(id, name, mail, password);
 
     res.status(200).json(updatedUser);
   } catch (error) {
@@ -55,13 +70,13 @@ async function updateUser(req, res) {
 
 async function deleteUser(req, res) {
   try {
-    const { userId } = req.params;
+    const { id } = req.params;
 
-    const deletedUser = await usersService.deleteUser(userId);
+    const deletedUser = await usersService.deleteUser(id);
 
     res.status(200).json({
       message: "Utilisateur supprimé avec succès !",
-      userId: deletedUser._id,
+      id: deletedUser._id,
     });
   } catch (error) {
     console.error(
@@ -76,6 +91,7 @@ async function deleteUser(req, res) {
 module.exports = {
   createUser,
   getAllUsers,
+  getUserById,
   updateUser,
   deleteUser,
 };
