@@ -1,4 +1,4 @@
-const usersService = require("../services/usersService");
+const usersService = require("../../services/usersService");
 
 async function createUser(req, res) {
   try {
@@ -59,12 +59,10 @@ async function deleteUser(req, res) {
 
     const deletedUser = await usersService.deleteUser(userId);
 
-    res
-      .status(200)
-      .json({
-        message: "Utilisateur supprimé avec succès !",
-        userId: deletedUser._id,
-      });
+    res.status(200).json({
+      message: "Utilisateur supprimé avec succès !",
+      userId: deletedUser._id,
+    });
   } catch (error) {
     console.error(
       "Erreur lors de la suppression d'un utilisateur :",
