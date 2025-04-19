@@ -156,7 +156,6 @@ const createTheme = async () => {
       description: description.value,
       courses: selectedCourses.value
     })
-    console.log('Thème créé :', response.data)
     name.value = image.value = description.value = ''
     selectedCourses.value = []
   } catch (error) {

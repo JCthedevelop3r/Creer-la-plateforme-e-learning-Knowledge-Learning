@@ -3,6 +3,7 @@ const router = express.Router();
 const lessonsAdminController = require("../controllers/admin/lessonsAdmin");
 
 router.post("/create-lesson", lessonsAdminController.createLesson);
+router.get("/get-all-lessons", lessonsAdminController.getAllLessons);
 router.put("/update-lesson", lessonsAdminController.updateLesson);
 router.delete("/delete-lesson", lessonsAdminController.deleteLesson);
 

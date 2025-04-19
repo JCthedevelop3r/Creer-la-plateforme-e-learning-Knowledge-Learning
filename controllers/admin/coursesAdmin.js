@@ -3,13 +3,14 @@ const Course = require("../../models/Course");
 
 async function createCourse(req, res) {
   try {
-    const { name, image, price, theme } = req.body;
+    const { name, image, price, theme, lessons } = req.body;
 
     const newCourse = await coursesService.createCourse({
       name,
       image,
       price,
       theme,
+      lessons,
     });
 
     res.status(201).json(newCourse);
@@ -29,15 +30,34 @@ async function getAllCourses(req, res) {
   }
 }
 
+async function getCourseById(req, res) {
+  try {
+    const { courseId } = req.params;
+
+    const course = await coursesService.getCourseById(courseId);
+
+    if (!course) {
+      return res.status(404).json({ message: "Cursus non trouvé" });
+    }
+
+    res.status(200).json(course);
+  } catch (error) {
+    console.error("Erreur lors de la récupération du cursus :", error.message);
+    res.status(500).json({ message: "Erreur serveur", error: error.message });
+  }
+}
+
 async function updateCourse(req, res) {
   try {
     const { courseId } = req.params;
-    const { name, image, price } = req.body;
+    const { name, image, price, theme, lessons } = req.body;
 
     const updatedCourse = await coursesService.updateCourse(courseId, {
       name,
       image,
       price,
+      theme,
+      lessons,
     });
 
     res.status(200).json(updatedCourse);
@@ -55,7 +75,7 @@ async function deleteCourse(req, res) {
   try {
     const { courseId } = req.params;
 
-    const deletedCourse = await coursesService.deleteCourse({ courseId });
+    const deletedCourse = await coursesService.deleteCourse(courseId);
 
     res.status(200).json({
       message: "Cursus supprimé avec succès !",
@@ -89,6 +109,7 @@ async function getCourseByName(req, res) {
 module.exports = {
   createCourse,
   getAllCourses,
+  getCourseById,
   updateCourse,
   deleteCourse,
   getCourseByName,

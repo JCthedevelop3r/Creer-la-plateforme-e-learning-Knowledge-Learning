@@ -9,12 +9,10 @@ const courseSchema = new mongoose.Schema(
     image: {
       type: String,
     },
-    theme: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Theme",
-      required: true,
-    },
-    lesson: [
+    theme: [
+      { type: mongoose.Schema.Types.ObjectId, ref: "Theme", required: true },
+    ],
+    lessons: [
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Lesson",
@@ -45,8 +43,8 @@ const courseSchema = new mongoose.Schema(
 );
 
 courseSchema.pre("save", function (next) {
-  if (this.isModified("lesson")) {
-    this.certified = this.lesson.every((l) => l.certified); // The course is certified if all the lessons are certified
+  if (this.isModified("lessons")) {
+    this.certified = this.lessons.every((l) => l.certified); // The course is certified if all the lessons are certified
   }
   next();
 });
