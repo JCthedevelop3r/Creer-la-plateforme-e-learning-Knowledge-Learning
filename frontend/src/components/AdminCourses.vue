@@ -5,6 +5,10 @@
       <div class="admin__title-container">
         <h2 class="admin__form-title">Créer un cursus</h2>
       </div>
+
+      <div v-if="createSuccessMessage" class="admin__message success">{{ createSuccessMessage }}</div>
+      <div v-if="createErrorMessage" class="admin__message error">{{ createErrorMessage }}</div>
+
       <form @submit.prevent="createCourse" class="admin__create-course">
         <div class="admin__input-container">
           <label class="admin__label" for="createCourseName">Nom :</label>
@@ -53,6 +57,10 @@
         <div class="admin__title-container">
           <h2 class="admin__form-title">Lire les données d'un cursus</h2>
         </div>
+
+        <div v-if="readSuccessMessage" class="admin__message success">{{ readSuccessMessage }}</div>
+        <div v-if="readErrorMessage" class="admin__message error">{{ readErrorMessage }}</div>
+
         <div class="admin__input-container">
           <label class="admin__label" for="getCourseById">Entrez l'identifiant :</label>
           <input v-model="courseId" type="text" class="admin__text-input" id="getCourseById" required />
@@ -92,6 +100,9 @@
         <div class="admin__title-container">
           <h2 class="admin__form-title">Mettre à jour un cursus</h2>
         </div>
+
+        <div v-if="updateSuccessMessage" class="admin__message success">{{ updateSuccessMessage }}</div>
+        <div v-if="updateErrorMessage" class="admin__message error">{{ updateErrorMessage }}</div>
 
         <div class="admin__input-container">
           <label class="admin__label" for="updateCourseId">ID du cursus :</label>
@@ -145,6 +156,10 @@
         <div class="admin__title-container">
           <h2 class="admin__form-title">Supprimer un cursus</h2>
         </div>
+
+        <div v-if="deleteSuccessMessage" class="admin__message success">{{ deleteSuccessMessage }}</div>
+        <div v-if="deleteErrorMessage" class="admin__message error">{{ deleteErrorMessage }}</div>
+
         <div class="admin__input-container">
           <label class="admin__label" for="deleteCourseId">Entrez l'identifiant :</label>
           <input v-model="deleteId" type="text" class="admin__text-input" id="deleteCourseId" required />
@@ -160,6 +175,16 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
+
+// MESSAGES
+const createSuccessMessage = ref('')
+const createErrorMessage = ref('')
+const readSuccessMessage = ref('')
+const readErrorMessage = ref('')
+const updateSuccessMessage = ref('')
+const updateErrorMessage = ref('')
+const deleteSuccessMessage = ref('')
+const deleteErrorMessage = ref('')
 
 // CREATE
 const name = ref('')
@@ -178,11 +203,15 @@ const createCourse = async () => {
       theme: selectedThemes.value,
       lessons: selectedLessons.value
     })
+    createSuccessMessage.value = "Cursus créé avec succès !"
+    createErrorMessage.value = ""
     name.value = price.value = image.value = ''
     selectedThemes.value = []
     selectedLessons.value = []
   } catch (error) {
     console.error('Erreur création :', error)
+    createSuccessMessage.value = ""
+    createErrorMessage.value = "Une erreur est survenue lors de la création du cursus."
   }
 }
 
@@ -194,10 +223,14 @@ const fetchCourseById = async () => {
   try {
     const response = await axios.get(`http://localhost:3000/admin/courses/get-course-by-id/${courseId.value}`)
     courseData.value = response.data
+    readSuccessMessage.value = "Cursus récupéré avec succès !"
+    readErrorMessage.value = ""
     courseId.value = ""
   } catch (error) {
     console.error('Erreur récupération :', error)
     courseData.value = null
+    readSuccessMessage.value = ""
+    readErrorMessage.value = "Impossible de récupérer le cursus. Vérifiez l'identifiant."
   }
 }
 
@@ -218,11 +251,15 @@ const updateCourse = async () => {
       themes: updateThemes.value,
       lessons: updateLessons.value
     })
+    updateSuccessMessage.value = "Cursus mis à jour avec succès !"
+    updateErrorMessage.value = ""
     updateId.value = updateName.value = updateImage.value = updatePrice.value = ""
     updateThemes.value = []
     updateLessons.value = []
   } catch (error) {
     console.error('Erreur update :', error)
+    updateSuccessMessage.value = ""
+    updateErrorMessage.value = "Une erreur est survenue lors de la mise à jour du cursus."
   }
 }
 
@@ -232,14 +269,17 @@ const deleteId = ref('')
 const deleteCourse = async () => {
   try {
     const response = await axios.delete(`http://localhost:3000/admin/courses/delete-course/${deleteId.value}`)
+    deleteSuccessMessage.value = "Cursus supprimé avec succès !"
+    deleteErrorMessage.value = ""
     deleteId.value = ""
   } catch (error) {
     console.error('Erreur suppression :', error)
+    deleteSuccessMessage.value = ""
+    deleteErrorMessage.value = "Une erreur est survenue lors de la suppression du cursus."
   }
 }
 
 // THEMES & LESSONS
-
 const themes = ref([])
 const lessons = ref([])
 
@@ -248,10 +288,19 @@ onMounted(async () => {
     const themeResponse = await axios.get('http://localhost:3000/admin/themes/get-all-themes')
     themes.value = themeResponse.data
 
-   const lessonResponse = await axios.get('http://localhost:3000/admin/lessons/get-all-lessons')
+    const lessonResponse = await axios.get('http://localhost:3000/admin/lessons/get-all-lessons')
     lessons.value = lessonResponse.data
   } catch (error) {
     console.error('Erreur lors du chargement des thèmes ou leçons :', error)
   }
 })
 </script>
+
+<style scoped>
+.success {
+  color: green;
+}
+.error {
+  color: red;
+}
+</style>

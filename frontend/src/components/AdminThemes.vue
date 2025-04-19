@@ -5,6 +5,10 @@
       <div class="admin__title-container">
         <h2 class="admin__form-title">Créer un thème</h2>
       </div>
+
+      <div v-if="successMessage" class="admin__message success">{{ successMessage }}</div>
+      <div v-if="errorMessage" class="admin__message error">{{ errorMessage }}</div>
+
       <form @submit.prevent="createTheme" class="admin__create-theme">
         <div class="admin__input-container">
           <label class="admin__label" for="createThemeName">Nom :</label>
@@ -43,6 +47,10 @@
         <div class="admin__title-container">
           <h2 class="admin__form-title">Lire les données d'un thème</h2>
         </div>
+
+        <div v-if="readSuccessMessage" class="admin__message success">{{ readSuccessMessage }}</div>
+        <div v-if="readErrorMessage" class="admin__message error">{{ readErrorMessage }}</div>
+
         <div class="admin__input-container">
           <label for="getThemeById" class="admin__label">Entrez l'identifiant :</label>
           <input v-model="themeId" type="text" class="admin__text-input" id="getThemeById" required />
@@ -84,6 +92,10 @@
         <div class="admin__title-container">
           <h2 class="admin__form-title">Mettre à jour un thème</h2>
         </div>
+
+        <div v-if="updateSuccessMessage" class="admin__message success">{{ updateSuccessMessage }}</div>
+        <div v-if="updateErrorMessage" class="admin__message error">{{ updateErrorMessage }}</div>
+
         <div class="admin__input-container">
           <label class="admin__label" for="updateThemeId">ID du thème :</label>
           <input id="updateThemeId" v-model="updateId" type="text" class="admin__text-input" required />
@@ -126,6 +138,10 @@
         <div class="admin__title-container">
           <h2 class="admin__form-title">Supprimer un thème</h2>
         </div>
+
+        <div v-if="deleteSuccessMessage" class="admin__message success">{{ deleteSuccessMessage }}</div>
+        <div v-if="deleteErrorMessage" class="admin__message error">{{ deleteErrorMessage }}</div>
+
         <div class="admin__input-container">
           <label class="admin__label" for="deleteThemeId">Entrez l'identifiant :</label>
           <input v-model="deleteId" type="text" class="admin__text-input" id="deleteThemeId" required />
@@ -142,6 +158,16 @@
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
 
+// MESSAGES
+const createSuccessMessage = ref('')
+const createErrorMessage = ref('')
+const readSuccessMessage = ref('')
+const readErrorMessage = ref('')
+const updateSuccessMessage = ref('')
+const updateErrorMessage = ref('')
+const deleteSuccessMessage = ref('')
+const deleteErrorMessage = ref('')
+
 // CREATE
 const name = ref('')
 const image = ref('')
@@ -150,16 +176,20 @@ const selectedCourses = ref([])
 
 const createTheme = async () => {
   try {
-    const response = await axios.post('http://localhost:3000/admin/themes/create-theme', {
+    await axios.post('http://localhost:3000/admin/themes/create-theme', {
       name: name.value,
       image: image.value,
       description: description.value,
       courses: selectedCourses.value
     })
+    createSuccessMessage.value = "Thème créé avec succès !"
+    createErrorMessage.value = ""
     name.value = image.value = description.value = ''
     selectedCourses.value = []
   } catch (error) {
     console.error('Erreur création :', error)
+    createSuccessMessage.value = ""
+    createErrorMessage.value = "Erreur lors de la création du thème."
   }
 }
 
@@ -171,10 +201,14 @@ const fetchThemeById = async () => {
   try {
     const response = await axios.get(`http://localhost:3000/admin/themes/get-theme-by-id/${themeId.value}`)
     themeData.value = response.data
+    readSuccessMessage.value = "Thème récupéré avec succès !"
+    readErrorMessage.value = ""
     themeId.value = ""
   } catch (error) {
     console.error('Erreur récupération :', error)
     themeData.value = null
+    readSuccessMessage.value = ""
+    readErrorMessage.value = "Thème introuvable ou erreur serveur."
   }
 }
 
@@ -187,15 +221,20 @@ const updateCourses = ref([])
 
 const updateTheme = async () => {
   try {
-    const response = await axios.put(`http://localhost:3000/admin/themes/update-theme/${updateId.value}`, {
+    await axios.put(`http://localhost:3000/admin/themes/update-theme/${updateId.value}`, {
       name: updateName.value,
       image: updateImage.value,
       description: updateDescription.value,
       courses: updateCourses.value
     })
-    updateId.value = updateName.value = updateImage.value = updateDescription.value = updateCourses.value = ""
+    updateSuccessMessage.value = "Thème mis à jour avec succès !"
+    updateErrorMessage.value = ""
+    updateId.value = updateName.value = updateImage.value = updateDescription.value = ""
+    updateCourses.value = []
   } catch (error) {
     console.error('Erreur update :', error)
+    updateSuccessMessage.value = ""
+    updateErrorMessage.value = "Erreur lors de la mise à jour du thème."
   }
 }
 
@@ -204,10 +243,14 @@ const deleteId = ref('')
 
 const deleteTheme = async () => {
   try {
-    const response = await axios.delete(`http://localhost:3000/admin/themes/delete-theme/${deleteId.value}`)
+    await axios.delete(`http://localhost:3000/admin/themes/delete-theme/${deleteId.value}`)
+    deleteSuccessMessage.value = "Thème supprimé avec succès !"
+    deleteErrorMessage.value = ""
     deleteId.value = ""
   } catch (error) {
     console.error('Erreur suppression :', error)
+    deleteSuccessMessage.value = ""
+    deleteErrorMessage.value = "Erreur lors de la suppression du thème."
   }
 }
 
@@ -223,3 +266,12 @@ onMounted(async () => {
   }
 })
 </script>
+
+<style scoped>
+.success {
+  color: green;
+}
+.error {
+  color: red;
+}
+</style>
