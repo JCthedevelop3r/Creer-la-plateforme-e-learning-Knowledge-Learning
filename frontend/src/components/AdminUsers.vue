@@ -131,7 +131,6 @@ const createUser = async () => {
       mail: mail.value,
       password: password.value
     })
-    console.log("Utilisateur créé :", response.data)
     name.value = ""
     mail.value = ""
     password.value = ""
@@ -148,6 +147,7 @@ const fetchUserById = async () => {
   try {
     const response = await axios.get(`http://localhost:3000/admin/users/get-user-by-id/${userId.value}`)
     userData.value = response.data
+    userId.value = ""
   } catch (error) {
     console.error("Erreur récupération :", error)
     userData.value = null
@@ -167,7 +167,7 @@ const updateUser = async () => {
       mail: updateMail.value,
       password: updatePassword.value
     })
-    console.log("Utilisateur mis à jour :", response.data)
+    updateId.value = updateName.value = updateMail.value = updatePassword.value = ""
   } catch (error) {
     console.error("Erreur update :", error)
   }
@@ -179,7 +179,7 @@ const deleteId = ref("")
 const deleteUser = async () => {
   try {
     const response = await axios.delete(`http://localhost:3000/admin/users/delete-user/${deleteId.value}`)
-    console.log("Utilisateur supprimé :", response.data)
+    deleteId.value = ""
   } catch (error) {
     console.error("Erreur suppression :", error)
   }

@@ -178,7 +178,6 @@ const createCourse = async () => {
       theme: selectedThemes.value,
       lessons: selectedLessons.value
     })
-    console.log('Cursus créé :', response.data)
     name.value = price.value = image.value = ''
     selectedThemes.value = []
     selectedLessons.value = []
@@ -195,6 +194,7 @@ const fetchCourseById = async () => {
   try {
     const response = await axios.get(`http://localhost:3000/admin/courses/get-course-by-id/${courseId.value}`)
     courseData.value = response.data
+    courseId.value = ""
   } catch (error) {
     console.error('Erreur récupération :', error)
     courseData.value = null
@@ -218,7 +218,9 @@ const updateCourse = async () => {
       themes: updateThemes.value,
       lessons: updateLessons.value
     })
-    console.log('Cursus mis à jour :', response.data)
+    updateId.value = updateName.value = updateImage.value = updatePrice.value = ""
+    updateThemes.value = []
+    updateLessons.value = []
   } catch (error) {
     console.error('Erreur update :', error)
   }
@@ -230,7 +232,7 @@ const deleteId = ref('')
 const deleteCourse = async () => {
   try {
     const response = await axios.delete(`http://localhost:3000/admin/courses/delete-course/${deleteId.value}`)
-    console.log('Cursus supprimé :', response.data)
+    deleteId.value = ""
   } catch (error) {
     console.error('Erreur suppression :', error)
   }
@@ -247,7 +249,6 @@ onMounted(async () => {
     themes.value = themeResponse.data
 
    const lessonResponse = await axios.get('http://localhost:3000/admin/lessons/get-all-lessons')
-    console.log('Leçons récupérées :', lessonResponse.data)
     lessons.value = lessonResponse.data
   } catch (error) {
     console.error('Erreur lors du chargement des thèmes ou leçons :', error)

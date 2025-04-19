@@ -171,6 +171,7 @@ const fetchThemeById = async () => {
   try {
     const response = await axios.get(`http://localhost:3000/admin/themes/get-theme-by-id/${themeId.value}`)
     themeData.value = response.data
+    themeId.value = ""
   } catch (error) {
     console.error('Erreur récupération :', error)
     themeData.value = null
@@ -192,7 +193,7 @@ const updateTheme = async () => {
       description: updateDescription.value,
       courses: updateCourses.value
     })
-    console.log('Thème mis à jour :', response.data)
+    updateId.value = updateName.value = updateImage.value = updateDescription.value = updateCourses.value = ""
   } catch (error) {
     console.error('Erreur update :', error)
   }
@@ -204,7 +205,7 @@ const deleteId = ref('')
 const deleteTheme = async () => {
   try {
     const response = await axios.delete(`http://localhost:3000/admin/themes/delete-theme/${deleteId.value}`)
-    console.log('Thème supprimé :', response.data)
+    deleteId.value = ""
   } catch (error) {
     console.error('Erreur suppression :', error)
   }

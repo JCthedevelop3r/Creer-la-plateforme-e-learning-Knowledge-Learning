@@ -190,7 +190,6 @@ const createLesson = async () => {
       image: image.value,
       course: selectedCourses.value
     })
-    console.log('Leçon créée :', res.data)
     title.value = description.value = textContent.value = videoUrl.value = image.value = ''
     price.value = 0
     selectedCourses.value = []
@@ -207,6 +206,7 @@ const fetchLessonById = async () => {
   try {
     const res = await axios.get(`http://localhost:3000/admin/lessons/get-lesson-by-id/${lessonId.value}`)
     lessonData.value = res.data
+    lessonId.value = ""
   } catch (error) {
     console.error('Erreur récupération leçon :', error)
     lessonData.value = null
@@ -249,7 +249,7 @@ const deleteId = ref('')
 const deleteLesson = async () => {
   try {
     const res = await axios.delete(`http://localhost:3000/admin/lessons/delete-lesson/${deleteId.value}`)
-    console.log('Leçon supprimée :', res.data)
+    deleteId.value = ""
   } catch (error) {
     console.error('Erreur suppression leçon :', error)
   }

@@ -1,5 +1,4 @@
 const lessonsService = require("../../services/lessonsService");
-const Lesson = require("../../models/Lesson");
 
 async function createLesson(req, res) {
   try {
