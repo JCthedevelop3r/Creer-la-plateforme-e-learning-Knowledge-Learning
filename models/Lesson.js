@@ -18,13 +18,14 @@ const lessonSchema = new mongoose.Schema(
     },
     videoUrl: {
       type: String, // Stores the video URL or video file path
-      required: true,
     },
-    course: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Course",
-      required: true,
-    },
+    course: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Course",
+        required: true,
+      },
+    ],
     price: {
       type: Number,
       required: true,
