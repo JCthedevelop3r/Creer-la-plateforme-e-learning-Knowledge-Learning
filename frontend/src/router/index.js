@@ -8,6 +8,7 @@ import Theme from "../views/Theme.vue";
 import Course from "../views/Course.vue";
 import Lesson from "../views/Lesson.vue";
 import Certifications from "../views/Certifications.vue";
+import Admin from "../views/Admin.vue";
 
 const routes = [
   { path: "/", component: Home },
@@ -19,6 +20,7 @@ const routes = [
   { path: "/theme/:themeName/:courseName", component: Course },
   { path: "/theme/:themeName/:courseName/:lessonId", component: Lesson },
   { path: "/certifications", component: Certifications },
+  { path: "/admin", component: Admin },
 ];
 
 const router = createRouter({

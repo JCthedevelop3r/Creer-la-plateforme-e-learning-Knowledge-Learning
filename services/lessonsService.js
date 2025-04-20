@@ -27,6 +27,22 @@ async function getAllLessons() {
   }
 }
 
+async function getLessonById(lessonId) {
+  try {
+    const lesson = await Lesson.findById(lessonId);
+
+    if (!lesson) {
+      throw new Error("Leçon non trouvée");
+    }
+
+    return lesson;
+  } catch (error) {
+    throw new Error(
+      "Erreur lors de la récupération de la leçon : " + error.message
+    );
+  }
+}
+
 async function updateLesson(lessonId, updateData) {
   try {
     const updatedLesson = await Lesson.findByIdAndUpdate(lessonId, updateData, {
@@ -61,4 +77,10 @@ async function deleteLesson(lessonId) {
   }
 }
 
-module.exports = { createLesson, getAllLessons, updateLesson, deleteLesson };
+module.exports = {
+  createLesson,
+  getAllLessons,
+  getLessonById,
+  updateLesson,
+  deleteLesson,
+};

@@ -33,7 +33,18 @@ async function getAllUsers() {
   }
 }
 
-async function updateUser(userId, name, mail, password) {
+async function getUserById(id) {
+  try {
+    const user = await User.findById(id);
+    return user;
+  } catch (error) {
+    throw new Error(
+      "Erreur lors de la récupération de l'utilisateur : " + error.message
+    );
+  }
+}
+
+async function updateUser(id, name, mail, password) {
   try {
     // Hashing the password if it's updated
     let hashedPassword = password;
@@ -43,7 +54,7 @@ async function updateUser(userId, name, mail, password) {
     }
 
     const updatedUser = await User.findByIdAndUpdate(
-      userId,
+      id,
       { name, mail, password: hashedPassword },
       { new: true }
     );
@@ -60,9 +71,9 @@ async function updateUser(userId, name, mail, password) {
   }
 }
 
-async function deleteUser(userId) {
+async function deleteUser(id) {
   try {
-    const deletedUser = await User.findByIdAndDelete(userId);
+    const deletedUser = await User.findByIdAndDelete(id);
 
     if (!deletedUser) {
       throw new Error("Utilisateur introuvable");
@@ -76,4 +87,10 @@ async function deleteUser(userId) {
   }
 }
 
-module.exports = { createUser, getAllUsers, updateUser, deleteUser };
+module.exports = {
+  createUser,
+  getAllUsers,
+  getUserById,
+  updateUser,
+  deleteUser,
+};

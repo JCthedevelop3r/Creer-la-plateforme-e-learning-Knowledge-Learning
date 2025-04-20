@@ -14,7 +14,7 @@ async function getAllCourses() {
   try {
     const courses = await Course.find()
       .populate("theme") // Retrieve the information of the associated theme
-      .populate("lesson") // Retrieve the lessons associated with the course
+      .populate("lessons") // Retrieve the lessons associated with the course
       .populate("created_by") // Retrieve the info of the user who created the course
       .populate("updated_by"); // Retrieve the info of the user who updated the course
 
@@ -22,6 +22,20 @@ async function getAllCourses() {
   } catch (error) {
     throw new Error(
       "Erreur lors de la récupération des cursus : " + error.message
+    );
+  }
+}
+
+async function getCourseById(courseId) {
+  try {
+    const course = await Course.findById(courseId)
+      .populate("lessons")
+      .populate("theme");
+
+    return course;
+  } catch (error) {
+    throw new Error(
+      "Erreur lors de la récupération du cursus : " + error.message
     );
   }
 }
@@ -63,6 +77,7 @@ async function deleteCourse(courseId) {
 module.exports = {
   createCourse,
   getAllCourses,
+  getCourseById,
   updateCourse,
   deleteCourse,
 };

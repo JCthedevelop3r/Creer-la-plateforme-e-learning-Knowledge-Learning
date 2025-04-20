@@ -1,12 +1,20 @@
 const Theme = require("../models/Theme");
 
-async function createTheme({ name, image, description, createdBy, updatedBy }) {
+async function createTheme({
+  name,
+  image,
+  description,
+  courses,
+  createdBy,
+  updatedBy,
+}) {
   try {
     // Création d'un nouveau thème
     const newTheme = new Theme({
       name,
       image,
       description,
+      course: Array.isArray(courses) ? courses : [courses],
       created_by: createdBy,
       updated_by: updatedBy,
     });
@@ -31,6 +39,18 @@ async function getAllThemes() {
   } catch (error) {
     throw new Error(
       "Erreur lors de la récupération des thèmes : " + error.message
+    );
+  }
+}
+
+async function getThemeById(themeId) {
+  try {
+    const theme = await Theme.findById(themeId).populate("course");
+
+    return theme;
+  } catch (error) {
+    throw new Error(
+      "Erreur lors de la récupération du thème : " + error.message
     );
   }
 }
@@ -69,9 +89,26 @@ async function deleteTheme(themeId) {
   }
 }
 
+async function getThemeByName(themeName) {
+  try {
+    const theme = await Theme.findOne({ name: themeName }).populate("course");
+    if (!theme) {
+      throw new Error("Thème introuvable");
+    }
+
+    return theme;
+  } catch (error) {
+    throw new Error(
+      "Erreur lors de la récupération du thème : " + error.message
+    );
+  }
+}
+
 module.exports = {
   createTheme,
   getAllThemes,
+  getThemeById,
   updateTheme,
   deleteTheme,
+  getThemeByName,
 };
