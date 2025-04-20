@@ -22,14 +22,14 @@
 
         <div class="admin__input-container">
           <label class="admin__label" for="createThemeDescription">Description :</label>
-          <input id="createThemeDescription" v-model="description" type="text" class="admin__text-input" required />
+          <textarea id="createThemeDescription" v-model="description" type="text" class="admin__text-input" required></textarea>
         </div>
 
         <div class="admin__input-container">
           <label class="admin__label">Cursus lié(s) :</label>
           <div v-for="course in courses" :key="course._id">
             <label>
-              <input type="checkbox" name="courses[]" :value="course._id" v-model="selectedCourses" />
+              <input type="checkbox" name="courses[]" :value="course._id" v-model="selectedCourses" required />
               {{ course.name }}
             </label>
           </div>
@@ -103,24 +103,24 @@
 
         <div class="admin__input-container">
           <label class="admin__label" for="updateThemeName">Nom :</label>
-          <input id="updateThemeName" v-model="updateName" type="text" class="admin__text-input" />
+          <input id="updateThemeName" v-model="updateName" type="text" class="admin__text-input" required />
         </div>
 
         <div class="admin__input-container">
           <label class="admin__label" for="updateThemeImage">Image :</label>
-          <input id="updateThemeImage" v-model="updateImage" type="text" class="admin__text-input" />
+          <input id="updateThemeImage" v-model="updateImage" type="text" class="admin__text-input" required />
         </div>
 
         <div class="admin__input-container">
           <label class="admin__label" for="updateThemeDescription">Description :</label>
-          <input id="updateThemeDescription" v-model="updateDescription" type="text" class="admin__text-input" />
+          <textarea id="updateThemeDescription" v-model="updateDescription" type="text" class="admin__text-input" required></textarea>
         </div>
 
         <div class="admin__input-container">
           <label class="admin__label">Cursus lié(s) :</label>
           <div v-for="course in courses" :key="course._id">
             <label>
-              <input type="checkbox" :value="course._id" v-model="updateCourses" />
+              <input type="checkbox" :value="course._id" v-model="updateCourses" required />
               {{ course.name }}
             </label>
           </div>

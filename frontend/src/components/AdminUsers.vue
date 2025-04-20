@@ -94,17 +94,17 @@
 
         <div class="admin__input-container">
           <label class="admin__label" for="updateName">Nom :</label>
-          <input id="updateName" v-model="updateName" type="text" class="admin__text-input" />
+          <input id="updateName" v-model="updateName" type="text" class="admin__text-input" required />
         </div>
 
         <div class="admin__input-container">
           <label class="admin__label" for="updateMail">Email :</label>
-          <input id="updateMail" v-model="updateMail" type="email" class="admin__text-input" />
+          <input id="updateMail" v-model="updateMail" type="email" class="admin__text-input" required />
         </div>
 
         <div class="admin__input-container">
           <label class="admin__label" for="updatePassword">Mot de passe :</label>
-          <input id="updatePassword" v-model="updatePassword" type="password" class="admin__text-input" />
+          <input id="updatePassword" v-model="updatePassword" type="password" class="admin__text-input" required />
         </div>
 
         <div class="admin__btn-container">

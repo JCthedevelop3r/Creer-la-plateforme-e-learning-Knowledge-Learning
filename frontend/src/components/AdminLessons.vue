@@ -17,7 +17,7 @@
 
         <div class="admin__input-container">
           <label class="admin__label" for="lessonDescription">Description :</label>
-          <input id="lessonDescription" v-model="description" type="text" class="admin__text-input" />
+          <textarea id="lessonDescription" v-model="description" type="text" class="admin__text-input" required></textarea>
         </div>
 
         <div class="admin__input-container">
@@ -37,14 +37,14 @@
 
         <div class="admin__input-container">
           <label class="admin__label" for="lessonImage">Image :</label>
-          <input id="lessonImage" v-model="image" type="text" class="admin__text-input" />
+          <input id="lessonImage" v-model="image" type="text" class="admin__text-input" required />
         </div>
 
         <div class="admin__input-container">
-            <label class="admin__label">Cursus lié(s) :</label>
+            <label class="admin__label">Cursus lié :</label>
             <div v-for="course in courses" :key="course._id">
                 <label>
-                    <input type="checkbox" :value="course._id" v-model="selectedCourses" />
+                    <input type="radio" :value="course._id" v-model="selectedCourse" required />
                     {{ course.name }}
                 </label>
             </div>
@@ -114,39 +114,39 @@
 
         <div class="admin__input-container">
           <label class="admin__label" for="updateLessonTitle">Titre :</label>
-          <input id="updateLessonTitle" v-model="updateTitle" type="text" class="admin__text-input" />
+          <input id="updateLessonTitle" v-model="updateTitle" type="text" class="admin__text-input" required />
         </div>
 
         <div class="admin__input-container">
           <label class="admin__label" for="updateLessonDescription">Description :</label>
-          <input id="updateLessonDescription" v-model="updateDescription" type="text" class="admin__text-input" />
+          <textarea id="updateLessonDescription" v-model="updateDescription" type="text" class="admin__text-input" required></textarea>
         </div>
 
         <div class="admin__input-container">
           <label class="admin__label" for="updateLessonTextContent">Contenu textuel :</label>
-          <textarea id="updateLessonTextContent" v-model="updateTextContent" class="admin__text-input"></textarea>
+          <textarea id="updateLessonTextContent" v-model="updateTextContent" class="admin__text-input" required></textarea>
         </div>
 
         <div class="admin__input-container">
           <label class="admin__label" for="updateLessonVideoUrl">URL vidéo :</label>
-          <input id="updateLessonVideoUrl" v-model="updateVideoUrl" type="text" class="admin__text-input" />
+          <input id="updateLessonVideoUrl" v-model="updateVideoUrl" type="text" class="admin__text-input" required />
         </div>
 
         <div class="admin__input-container">
           <label class="admin__label" for="updateLessonPrice">Prix :</label>
-          <input id="updateLessonPrice" v-model="updatePrice" type="number" class="admin__text-input" />
+          <input id="updateLessonPrice" v-model="updatePrice" type="number" class="admin__text-input" required />
         </div>
 
         <div class="admin__input-container">
           <label class="admin__label" for="updateLessonImage">Image :</label>
-          <input id="updateLessonImage" v-model="updateImage" type="text" class="admin__text-input" />
+          <input id="updateLessonImage" v-model="updateImage" type="text" class="admin__text-input" required />
         </div>
 
         <div class="admin__input-container">
-            <label class="admin__label">Cursus lié(s) :</label>
+            <label class="admin__label">Cursus lié :</label>
             <div v-for="course in courses" :key="course._id">
                 <label>
-                    <input type="checkbox" :value="course._id" v-model="updateCourses" />
+                    <input type="radio" :value="course._id" v-model="updateCourse" required />
                     {{ course.name }}
                 </label>
             </div>
@@ -202,7 +202,7 @@ const textContent = ref('')
 const videoUrl = ref('')
 const price = ref('')
 const image = ref('')
-const selectedCourses = ref([])
+const selectedCourse = ref("")
 
 const createLesson = async () => {
   try {
@@ -213,13 +213,13 @@ const createLesson = async () => {
       videoUrl: videoUrl.value,
       price: price.value,
       image: image.value,
-      course: selectedCourses.value
+      course: selectedCourse.value
     })
     createSuccessMessage.value = "Leçon créée avec succès !"
     createErrorMessage.value = ""
     title.value = description.value = textContent.value = videoUrl.value = image.value = ''
     price.value = 0
-    selectedCourses.value = []
+    selectedCourse.value = ""
   } catch (error) {
     console.error('Erreur création leçon :', error)
     createSuccessMessage.value = ""
@@ -254,7 +254,7 @@ const updateTextContent = ref('')
 const updateVideoUrl = ref('')
 const updatePrice = ref('')
 const updateImage = ref('')
-const updateCourses = ref([])
+const updateCourse = ref("")
 
 const updateLesson = async () => {
   try {
@@ -265,13 +265,13 @@ const updateLesson = async () => {
       videoUrl: updateVideoUrl.value,
       price: updatePrice.value,
       image: updateImage.value,
-      course: updateCourses.value
+      course: updateCourse.value
     })
     updateSuccessMessage.value = "Leçon mise à jour avec succès !"
     updateErrorMessage.value = ""
     updateId.value = updateTitle.value = updateDescription.value = updateTextContent.value = updateVideoUrl.value = updateImage.value = ''
     updatePrice.value = 0
-    updateCourses.value = []
+    updateCourse.value = ""
   } catch (error) {
     console.error('Erreur update leçon :', error)
     updateSuccessMessage.value = ""

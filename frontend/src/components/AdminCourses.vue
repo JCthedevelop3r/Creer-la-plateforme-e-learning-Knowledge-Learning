@@ -17,19 +17,19 @@
 
         <div class="admin__input-container">
           <label class="admin__label" for="createCourseImage">Image :</label>
-          <input id="createCourseImage" v-model="image" type="text" class="admin__text-input" />
+          <input id="createCourseImage" v-model="image" type="text" class="admin__text-input" required />
         </div>
 
         <div class="admin__input-container">
           <label class="admin__label" for="createCoursePrice">Prix :</label>
-          <input id="createCoursePrice" v-model="price" type="text" class="admin__text-input" />
+          <input id="createCoursePrice" v-model="price" type="number" class="admin__text-input" required />
         </div>
 
         <div class="admin__input-container">
-          <label class="admin__label">Thème(s) lié(s) :</label>
+          <label class="admin__label">Thème lié :</label>
           <div v-for="theme in themes" :key="theme._id">
             <label>
-              <input type="checkbox" :value="theme._id" v-model="selectedThemes" />
+              <input type="radio" :value="theme._id" v-model="selectedTheme" required />
               {{ theme.name }}
             </label>
           </div>
@@ -39,7 +39,7 @@
           <label class="admin__label">Leçon(s) liée(s) :</label>
           <div v-for="lesson in lessons" :key="lesson._id">
             <label>
-              <input type="checkbox" :value="lesson._id" v-model="selectedLessons" />
+              <input type="checkbox" :value="lesson._id" v-model="selectedLessons" required />
               {{ lesson.title }}
             </label>
           </div>
@@ -111,24 +111,24 @@
 
         <div class="admin__input-container">
           <label class="admin__label" for="updateCourseName">Nom :</label>
-          <input id="updateCourseName" v-model="updateName" type="text" class="admin__text-input" />
+          <input id="updateCourseName" v-model="updateName" type="text" class="admin__text-input" required />
         </div>
 
         <div class="admin__input-container">
           <label class="admin__label" for="updateCourseImage">Image :</label>
-          <input id="updateCourseImage" v-model="updateImage" type="text" class="admin__text-input" />
+          <input id="updateCourseImage" v-model="updateImage" type="text" class="admin__text-input" required />
         </div>
 
         <div class="admin__input-container">
           <label class="admin__label" for="updateCoursePrice">Prix :</label>
-          <input id="updateCoursePrice" v-model="updatePrice" type="text" class="admin__text-input" />
+          <input id="updateCoursePrice" v-model="updatePrice" type="number" class="admin__text-input" required />
         </div>
 
         <div class="admin__input-container">
-          <label class="admin__label">Thème(s) lié(s) :</label>
+          <label class="admin__label">Thème lié :</label>
           <div v-for="theme in themes" :key="theme._id">
             <label>
-              <input type="checkbox" :value="theme._id" v-model="selectedThemes" />
+              <input type="radio" :value="theme._id" v-model="updateTheme" required />
               {{ theme.name }}
             </label>
           </div>
@@ -138,7 +138,7 @@
           <label class="admin__label">Leçon(s) liée(s) :</label>
           <div v-for="lesson in lessons" :key="lesson._id">
             <label>
-              <input type="checkbox" :value="lesson._id" v-model="updateLessons" />
+              <input type="checkbox" :value="lesson._id" v-model="updateLessons" required />
               {{ lesson.title }}
             </label>
           </div>
@@ -191,22 +191,24 @@ const name = ref('')
 const image = ref('')
 const description = ref('')
 const price = ref('')
-const selectedThemes = ref([])
+const selectedTheme = ref('')
 const selectedLessons = ref([])
 
 const createCourse = async () => {
   try {
+    console.log('Selected theme:', selectedTheme.value)
+
     const response = await axios.post('http://localhost:3000/admin/courses/create-course', {
       name: name.value,
       image: image.value,
       price: price.value,
-      theme: selectedThemes.value,
+      theme: [selectedTheme.value],
       lessons: selectedLessons.value
     })
     createSuccessMessage.value = "Cursus créé avec succès !"
     createErrorMessage.value = ""
     name.value = price.value = image.value = ''
-    selectedThemes.value = []
+    selectedTheme.value = ""
     selectedLessons.value = []
   } catch (error) {
     console.error('Erreur création :', error)
@@ -239,7 +241,7 @@ const updateId = ref('')
 const updateName = ref('')
 const updateImage = ref('')
 const updatePrice = ref('')
-const updateThemes = ref([])
+const updateTheme = ref("")
 const updateLessons = ref([])
 
 const updateCourse = async () => {
@@ -248,13 +250,13 @@ const updateCourse = async () => {
       name: updateName.value,
       image: updateImage.value,
       price: updatePrice.value,
-      themes: updateThemes.value,
+      theme: [updateTheme.value],
       lessons: updateLessons.value
     })
     updateSuccessMessage.value = "Cursus mis à jour avec succès !"
     updateErrorMessage.value = ""
     updateId.value = updateName.value = updateImage.value = updatePrice.value = ""
-    updateThemes.value = []
+    updateTheme.value = ""
     updateLessons.value = []
   } catch (error) {
     console.error('Erreur update :', error)
